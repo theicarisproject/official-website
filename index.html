@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Icaris Project | Building the Next Generation of Innovators</title>
+<meta name="description" content="The Icaris Project (TIP) is a youth-powered initiative where technology, business, design, and innovation come together.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #efeeeb;
+    --cream-2: #e6e1d5;
+    --cream-3: #ded6c2;
+    --ink: #23190f;
+    --ink-soft: #6b5f4c;
+    --orange: #e18b22;
+    --orange-deep: #a35f16;
+    --orange-pale: #f4dcac;
+    --orange-glow: rgba(225,139,34,.28);
+    --night: #18120a;
+    --night-2: #241a0d;
+    --r-sm: 10px;
+    --r-md: 18px;
+    --r-lg: 28px;
+    --maxw: 1220px;
+    --ease: cubic-bezier(.16,.8,.24,1);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--orange); color:var(--night); }
+
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--orange-deep);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-weight:500;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px; height:6px; border-radius:50%;
+    background:var(--orange);
+    box-shadow:0 0 0 4px var(--orange-glow);
+  }
+
+  /* -------- reveal -------- */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* -------- ambient dots (logo motif: paired dots above i's) -------- */
+  .dot-pair{ display:inline-flex; gap:5px; vertical-align:middle; margin-right:2px; }
+  .dot-pair span{ width:6px; height:6px; border-radius:50%; background:var(--orange); display:block; }
+
+  /* -------- flourish underline (echoes the cursive swash under "the" in logo) -------- */
+  .flourish{ position:relative; display:inline-block; }
+  .flourish svg{ position:absolute; left:0; bottom:-.12em; width:100%; height:.5em; overflow:visible; }
+  .flourish path{ fill:none; stroke:var(--orange); stroke-width:3; stroke-linecap:round; }
+
+  /* ============ NAV ============ */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:20px 0;
+    transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(239,238,235,.82);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    padding:13px 0;
+    border-color:rgba(35,25,15,.08);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:12px; font-family:'Fraunces', serif; }
+  .brand img{ height:38px; width:auto; }
+  .navlinks{ display:flex; align-items:center; gap:38px; }
+  .navlinks a{
+    font-size:14.5px; font-weight:500; color:var(--ink);
+    position:relative; padding:4px 0;
+  }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; bottom:0; width:0; height:2px;
+    background:var(--orange); transition:width .3s var(--ease);
+  }
+  .navlinks a:hover::after{ width:100%; }
+  .nav-cta{ display:flex; align-items:center; gap:14px; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:'Inter'; font-weight:600; font-size:14.5px;
+    padding:13px 26px; border-radius:100px;
+    cursor:pointer; border:1px solid transparent;
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease);
+    white-space:nowrap;
+  }
+  .btn-primary{ background:var(--orange); color:var(--night); box-shadow:0 1px 0 rgba(0,0,0,.05); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 24px -8px var(--orange-glow); }
+  .btn-ghost{ background:transparent; color:var(--ink); border-color:rgba(35,25,15,.18); }
+  .btn-ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
+  .btn-light{ background:var(--cream); color:var(--night); }
+  .btn-light:hover{ transform:translateY(-2px); box-shadow:0 12px 24px -10px rgba(0,0,0,.35); }
+  .btn-outline-light{ background:transparent; color:var(--cream); border-color:rgba(239,238,235,.3); }
+  .btn-outline-light:hover{ border-color:var(--cream); transform:translateY(-2px); }
+
+  .menu-toggle{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
+  .menu-toggle span{ width:22px; height:2px; background:var(--ink); border-radius:2px; }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    padding:180px 0 120px;
+    overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute; top:-220px; right:-160px; width:640px; height:640px;
+    background:radial-gradient(circle, var(--orange-glow) 0%, rgba(225,139,34,0) 70%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr .85fr; gap:60px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(40px, 6vw, 74px);
+    line-height:1.04;
+    margin:22px 0 26px;
+    letter-spacing:-0.02em;
+  }
+  .hero h1 em{ font-style:italic; color:var(--orange-deep); font-weight:500; }
+  .hero p.sub{
+    font-size:19px; color:var(--ink-soft); max-width:520px; margin-bottom:38px;
+  }
+  .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; }
+
+  .flight-visual{ position:relative; height:460px; }
+  .flight-visual svg{ width:100%; height:100%; overflow:visible; }
+  .flight-path{ fill:none; stroke:var(--orange-deep); stroke-width:2; stroke-dasharray:6 10; stroke-linecap:round; opacity:.55; }
+  .flight-path.solid{ stroke-dasharray:none; stroke:var(--orange); stroke-width:2.5; opacity:.9; }
+  .flight-node{ fill:var(--cream); stroke:var(--orange-deep); stroke-width:1.5; }
+  .flight-node.filled{ fill:var(--orange); stroke:none; }
+  .flight-mover{
+    fill:var(--orange);
+    offset-path:path("M20,420 C120,360 90,260 190,220 C300,175 260,90 400,40");
+    animation:fly 6s linear infinite;
+  }
+  @keyframes fly{ to{ offset-distance:100%; } }
+  .flight-card{
+    position:absolute; bottom:26px; right:0;
+    background:var(--cream); border:1px solid rgba(35,25,15,.1);
+    border-radius:var(--r-md); padding:20px 22px; width:230px;
+    box-shadow:0 24px 48px -24px rgba(35,25,15,.28);
+  }
+  .flight-card .num{ font-family:'Fraunces', serif; font-size:30px; color:var(--orange-deep); }
+  .flight-card .lbl{ font-size:13px; color:var(--ink-soft); margin-top:4px; }
+
+  .marquee-strip{
+    border-top:1px solid rgba(35,25,15,.1); border-bottom:1px solid rgba(35,25,15,.1);
+    padding:22px 0; overflow:hidden; background:var(--cream-2);
+  }
+  .marquee-track{ display:flex; gap:60px; width:max-content; animation:scroll 26s linear infinite; }
+  .marquee-track span{
+    font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-soft); white-space:nowrap;
+  }
+  .marquee-track span b{ color:var(--orange-deep); }
+  @keyframes scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* ============ SECTION shared ============ */
+  section{ padding:120px 0; position:relative; }
+  .section-alt{ background:var(--cream-2); }
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-head h2{ font-size:clamp(30px,4vw,46px); margin-top:16px; line-height:1.1; }
+  .section-head p{ color:var(--ink-soft); font-size:17px; margin-top:18px; }
+
+  .divider-arc{ width:100%; height:44px; display:block; }
+  .divider-arc path{ fill:none; stroke:var(--orange); stroke-width:1.6; opacity:.5; }
+
+  /* ============ ABOUT ============ */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .about-copy p{ font-size:17.5px; color:var(--ink-soft); margin-bottom:20px; }
+  .about-copy strong{ color:var(--ink); font-weight:600; }
+  .mv-stack{ display:flex; flex-direction:column; gap:20px; }
+  .mv-card{
+    background:var(--cream); border:1px solid rgba(35,25,15,.1);
+    border-radius:var(--r-lg); padding:32px 34px;
+    transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+  }
+  .mv-card:hover{ transform:translateY(-4px); box-shadow:0 24px 48px -28px rgba(35,25,15,.3); border-color:var(--orange-pale); }
+  .mv-card .eyebrow{ margin-bottom:12px; }
+  .mv-card h3{ font-size:23px; margin-bottom:10px; font-weight:500; }
+  .mv-card p{ color:var(--ink-soft); font-size:15.5px; }
+
+  /* ============ PROGRAMS ============ */
+  .prog-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:rgba(35,25,15,.12); border:1px solid rgba(35,25,15,.12); border-radius:var(--r-lg); overflow:hidden; }
+  .prog-card{
+    background:var(--cream); padding:36px 32px; min-height:190px;
+    display:flex; flex-direction:column; justify-content:space-between; gap:24px;
+    transition:background .35s var(--ease);
+  }
+  .prog-card:hover{ background:var(--orange-pale); }
+  .prog-card .mark{ width:34px; height:34px; border-radius:50%; border:1.5px solid var(--orange-deep); position:relative; flex:none; }
+  .prog-card .mark::after{ content:""; position:absolute; inset:8px; border-radius:50%; background:var(--orange); }
+  .prog-card h4{ font-size:19px; font-weight:500; margin-bottom:8px; }
+  .prog-card p{ font-size:14.5px; color:var(--ink-soft); }
+
+  /* ============ WHY ============ */
+  .why-list{ display:flex; flex-direction:column; }
+  .why-row{
+    display:grid; grid-template-columns:280px 1fr; gap:48px;
+    padding:38px 0; border-top:1px solid rgba(35,25,15,.14);
+    align-items:start;
+  }
+  .why-list .why-row:last-child{ border-bottom:1px solid rgba(35,25,15,.14); }
+  .why-row h3{ font-size:26px; font-weight:500; display:flex; align-items:center; gap:12px; }
+  .why-row p{ color:var(--ink-soft); font-size:16.5px; max-width:560px; }
+  .why-tag{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--orange-deep); background:var(--orange-pale);
+    padding:4px 10px; border-radius:6px; margin-top:12px; display:inline-block; width:fit-content;
+  }
+
+  /* ============ VALUES ============ */
+  .values-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:20px; }
+  .value-card{
+    padding:30px 22px; border-radius:var(--r-lg); background:var(--cream);
+    border:1px solid rgba(35,25,15,.1); text-align:left;
+    transition:transform .4s var(--ease), border-color .4s var(--ease);
+  }
+  .value-card:hover{ transform:translateY(-6px); border-color:var(--orange); }
+  .value-card .vnum{ font-family:'Fraunces', serif; font-style:italic; font-size:15px; color:var(--orange-deep); margin-bottom:18px; }
+  .value-card h4{ font-size:19px; margin-bottom:10px; font-weight:500; }
+  .value-card p{ font-size:14px; color:var(--ink-soft); }
+
+  /* ============ COMMUNITY ============ */
+  .community-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .community-visual{ position:relative; aspect-ratio:1/1; border-radius:var(--r-lg); background:linear-gradient(160deg, var(--orange-pale), var(--cream-3)); overflow:hidden; }
+  .orbit{ position:absolute; border:1px solid rgba(163,95,22,.35); border-radius:50%; }
+  .orbit.o1{ inset:14%; animation:spin 40s linear infinite; }
+  .orbit.o2{ inset:32%; animation:spin 26s linear infinite reverse; }
+  .orbit.o3{ inset:48%; animation:spin 18s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .orbit-dot{ position:absolute; width:12px; height:12px; border-radius:50%; background:var(--orange); top:-6px; left:calc(50% - 6px); box-shadow:0 0 0 6px var(--orange-glow); }
+  .community-core{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .community-core img{ width:34%; opacity:.95; }
+  .community-copy .stat-row{ display:flex; gap:40px; margin:34px 0 8px; flex-wrap:wrap; }
+  .stat{ }
+  .stat .num{ font-family:'Fraunces', serif; font-size:40px; color:var(--orange-deep); line-height:1; }
+  .stat .lbl{ font-size:13.5px; color:var(--ink-soft); margin-top:8px; }
+
+  /* ============ GET INVOLVED (dark) ============ */
+  .involved{
+    background:var(--night); color:var(--cream); border-radius:var(--r-lg);
+    padding:80px 60px; position:relative; overflow:hidden;
+  }
+  .involved::before{
+    content:""; position:absolute; top:-140px; left:-100px; width:420px; height:420px;
+    background:radial-gradient(circle, rgba(225,139,34,.28), rgba(225,139,34,0) 70%);
+  }
+  .involved-top{ display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap; position:relative; z-index:1; }
+  .involved h2{ color:var(--cream); font-size:clamp(28px,3.6vw,42px); max-width:560px; }
+  .involved p{ color:rgba(239,238,235,.68); font-size:16.5px; max-width:420px; margin-top:14px; }
+  .involved-actions{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(239,238,235,.14); border-top:1px solid rgba(239,238,235,.14); margin-top:56px; border-radius:var(--r-md); overflow:hidden; position:relative; z-index:1; }
+  .involved-action{ background:var(--night-2); padding:28px 24px; transition:background .3s var(--ease); }
+  .involved-action:hover{ background:#2c2011; }
+  .involved-action .eyebrow{ color:var(--orange); }
+  .involved-action .eyebrow::before{ background:var(--orange); }
+  .involved-action h4{ color:var(--cream); font-size:18px; margin:14px 0 8px; font-weight:500; }
+  .involved-action p{ color:rgba(239,238,235,.58); font-size:14px; margin:0; }
+
+  /* ============ FOOTER ============ */
+  footer{ padding:80px 0 40px; }
+  .footer-top{ display:grid; grid-template-columns:1.3fr .7fr 1fr 1fr; gap:50px; padding-bottom:60px; border-bottom:1px solid rgba(35,25,15,.14); }
+  .footer-brand .brand{ margin-bottom:18px; }
+  .footer-brand p{ color:var(--ink-soft); font-size:15px; max-width:280px; }
+  .footer-col h5{ font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--orange-deep); margin-bottom:18px; }
+  .footer-col ul{ display:flex; flex-direction:column; gap:12px; }
+  .footer-col a{ font-size:14.5px; color:var(--ink-soft); transition:color .25s; }
+  .footer-col a:hover{ color:var(--orange-deep); }
+  .newsletter form{ display:flex; gap:0; border:1px solid rgba(35,25,15,.2); border-radius:100px; padding:5px; margin-top:6px; }
+  .newsletter input{
+    flex:1; border:none; background:none; padding:10px 16px; font-family:'Inter'; font-size:14px; color:var(--ink); outline:none;
+  }
+  .newsletter button{
+    border:none; background:var(--orange); color:var(--night); font-weight:600; font-size:13.5px;
+    padding:10px 20px; border-radius:100px; cursor:pointer; transition:background .3s;
+  }
+  .newsletter button:hover{ background:var(--orange-deep); color:var(--cream); }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:32px; flex-wrap:wrap; gap:16px; }
+  .footer-bottom p{ font-size:13px; color:var(--ink-soft); }
+  .social-row{ display:flex; gap:18px; }
+  .social-row a{ font-size:13px; color:var(--ink-soft); }
+  .social-row a:hover{ color:var(--orange-deep); }
+
+  /* ============ responsive ============ */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .flight-visual{ height:320px; }
+    .about-grid{ grid-template-columns:1fr; gap:48px; }
+    .prog-grid{ grid-template-columns:repeat(2,1fr); }
+    .values-grid{ grid-template-columns:repeat(2,1fr); }
+    .why-row{ grid-template-columns:1fr; gap:14px; }
+    .community-grid{ grid-template-columns:1fr; }
+    .involved-actions{ grid-template-columns:repeat(2,1fr); }
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:40px; }
+  }
+  @media (max-width: 720px){
+    .navlinks, .nav-cta .btn-ghost{ display:none; }
+    .menu-toggle{ display:flex; }
+    .prog-grid{ grid-template-columns:1fr; }
+    .values-grid{ grid-template-columns:1fr 1fr; }
+    section{ padding:80px 0; }
+    .hero{ padding:140px 0 70px; }
+    .involved{ padding:50px 26px; }
+    .involved-actions{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr; }
+  }
+
+  .mobile-menu{
+    position:fixed; inset:0; background:var(--cream); z-index:200;
+    display:flex; flex-direction:column; padding:26px 32px;
+    transform:translateY(-100%); transition:transform .45s var(--ease);
+  }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu .close-btn{ align-self:flex-end; background:none; border:none; font-size:28px; cursor:pointer; color:var(--ink); }
+  .mobile-menu a{ font-family:'Fraunces', serif; font-size:32px; padding:16px 0; border-bottom:1px solid rgba(35,25,15,.1); }
+  .mobile-menu .btn{ margin-top:30px; width:fit-content; }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="brand">
+        <img src="logo.png" alt="The Icaris Project">
+      </a>
+      <div class="navlinks">
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#why">Why TIP</a>
+        <a href="#community">Community</a>
+        <a href="#involved">Get Involved</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#programs" class="btn btn-ghost">Explore Programs</a>
+        <a href="#involved" class="btn btn-primary">Join the Community</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="menuClose" aria-label="Close menu">&times;</button>
+  <a href="#about">About</a>
+  <a href="#programs">Programs</a>
+  <a href="#why">Why TIP</a>
+  <a href="#community">Community</a>
+  <a href="#involved">Get Involved</a>
+  <a href="#involved" class="btn btn-primary">Join the Community</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Founded by students, for students</span>
+      <h1>Building the next <em>generation</em> of innovators.</h1>
+      <p class="sub">The Icaris Project (TIP) is a youth-powered initiative where technology, business, design, and innovation come together &mdash; and ambitious ideas become real projects.</p>
+      <div class="hero-ctas">
+        <a href="#involved" class="btn btn-primary">Join the Community</a>
+        <a href="#programs" class="btn btn-ghost">Explore Programs</a>
+      </div>
+    </div>
+    <div class="flight-visual">
+      <svg viewBox="0 0 460 460">
+        <path class="flight-path" d="M20,420 C120,360 90,260 190,220 C300,175 260,90 400,40"></path>
+        <path class="flight-path solid" d="M20,420 C120,360 90,260 190,220" stroke-dasharray="none"></path>
+        <circle class="flight-node" cx="20" cy="420" r="6"></circle>
+        <circle class="flight-node" cx="190" cy="220" r="6"></circle>
+        <circle class="flight-node filled" cx="400" cy="40" r="7"></circle>
+      </svg>
+      <div class="flight-mover"></div>
+      <div class="flight-card">
+        <div class="num">01</div>
+        <div class="lbl">Idea sparked in a workshop, shipped as a real project three weeks later.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span><b>Technology</b> &nbsp;&mdash;&nbsp; Business &nbsp;&mdash;&nbsp; <b>Design</b> &nbsp;&mdash;&nbsp; Artificial Intelligence &nbsp;&mdash;&nbsp; <b>Data Science</b> &nbsp;&mdash;&nbsp; Cybersecurity &nbsp;&mdash;&nbsp; <b>Leadership</b> &nbsp;&mdash;&nbsp; Innovation</span>
+    <span><b>Technology</b> &nbsp;&mdash;&nbsp; Business &nbsp;&mdash;&nbsp; <b>Design</b> &nbsp;&mdash;&nbsp; Artificial Intelligence &nbsp;&mdash;&nbsp; <b>Data Science</b> &nbsp;&mdash;&nbsp; Cybersecurity &nbsp;&mdash;&nbsp; <b>Leadership</b> &nbsp;&mdash;&nbsp; Innovation</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <span class="eyebrow">About TIP</span>
+        <h2 style="margin-top:16px; font-size:clamp(28px,3.6vw,40px); line-height:1.15;">A community built on <span class="flourish">learning by doing<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M2,14 C50,4 150,20 198,8"/></svg></span>.</h2>
+        <p style="margin-top:26px;"><strong>The Icaris Project</strong> is a youth-powered initiative where technology, business, design, and innovation come together. Founded by students, for students, TIP empowers young people to explore emerging fields, develop real-world skills, and build projects that create meaningful impact.</p>
+        <p>Unlike traditional educational organizations, we emphasize doing over listening. Through hands-on programs, collaborative experiences, and creative problem-solving, students gain the confidence to turn ambitious ideas into reality &mdash; without waiting for permission to start.</p>
+      </div>
+      <div class="mv-stack reveal">
+        <div class="mv-card">
+          <span class="eyebrow">Mission</span>
+          <h3>Inspire and empower.</h3>
+          <p>We provide accessible opportunities to learn, create, collaborate, and lead across technology, business, and design &mdash; for the next generation of innovators.</p>
+        </div>
+        <div class="mv-card">
+          <span class="eyebrow">Vision</span>
+          <h3>A global community of creators.</h3>
+          <p>We're building a network of young people who use technology and innovation to solve meaningful problems and shape a better future.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS ============ -->
+<section id="programs" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What we offer</span>
+      <h2>Hands-on tracks across every field worth exploring.</h2>
+      <p>Every program is built around creativity, leadership, and technical growth &mdash; not lectures. Pick a track, or explore a few at once.</p>
+    </div>
+    <div class="prog-grid reveal">
+      <div class="prog-card"><div><div class="mark"></div><h4>Technology &amp; Computer Science</h4><p>Build real software, from first line of code to shipped product.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Business &amp; Entrepreneurship</h4><p>Pitch, validate, and launch ideas with founder-style rigor.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Design &amp; Creative Media</h4><p>Craft brands, interfaces, and visuals that people actually notice.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Artificial Intelligence &amp; Emerging Tech</h4><p>Get hands-on with the tools reshaping every industry.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Data Science &amp; Analytics</h4><p>Turn raw numbers into decisions worth making.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Cybersecurity</h4><p>Learn to think like both the defender and the attacker.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Innovation Challenges</h4><p>Solve real, open-ended problems against the clock.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Workshops &amp; Bootcamps</h4><p>Fast, focused sessions that build a skill in a weekend.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Community Projects</h4><p>Collaborate on work that ships for people beyond TIP.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Mentorship Opportunities</h4><p>Learn directly from people a few steps further down the path.</p></div></div>
+      <div class="prog-card"><div><div class="mark"></div><h4>Leadership Development</h4><p>Practice taking initiative and owning outcomes, not just tasks.</p></div></div>
+      <div class="prog-card" style="background:var(--orange-pale);">
+        <div>
+          <div class="mark"></div>
+          <h4>Don't see your path?</h4>
+          <p>TIP grows around the students in it. Bring an idea and we'll help you build the track for it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY TIP ============ -->
+<section id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why TIP</span>
+      <h2>Not another program to sit through.</h2>
+    </div>
+    <div class="why-list reveal">
+      <div class="why-row">
+        <h3><span class="dot-pair"><span></span><span></span></span>Student&#8209;led</h3>
+        <div><p>TIP is run by the students in it. Every program, event, and project reflects what this generation actually wants to build &mdash; not a curriculum handed down from above.</p><span class="why-tag">By students, for students</span></div>
+      </div>
+      <div class="why-row">
+        <h3><span class="dot-pair"><span></span><span></span></span>Collaborative</h3>
+        <div><p>You won't build alone. TIP pairs curious people with different strengths &mdash; coders with designers, strategists with builders &mdash; so ideas get stress-tested before they ship.</p><span class="why-tag">Cross-disciplinary by design</span></div>
+      </div>
+      <div class="why-row">
+        <h3><span class="dot-pair"><span></span><span></span></span>Project&#8209;based</h3>
+        <div><p>We measure progress in things built, not hours attended. Every track ends with something real: a product, a pitch, a portfolio piece, a launched project.</p><span class="why-tag">Learning by doing</span></div>
+      </div>
+      <div class="why-row">
+        <h3><span class="dot-pair"><span></span><span></span></span>Impact&#8209;focused</h3>
+        <div><p>We push past "just for practice." TIP projects are built to matter &mdash; for the community, for a real user, or for the problem you actually care about solving.</p><span class="why-tag">Built to matter</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUES ============ -->
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Core Values</span>
+      <h2>What we build on.</h2>
+    </div>
+    <div class="values-grid reveal">
+      <div class="value-card"><div class="vnum">Innovation</div><h4>Think differently</h4><p>Think creatively, challenge assumptions, and build bold solutions.</p></div>
+      <div class="value-card"><div class="vnum">Purpose</div><h4>Build with intent</h4><p>Use knowledge and technology to create positive impact.</p></div>
+      <div class="value-card"><div class="vnum">Community</div><h4>Grow together</h4><p>Grow alongside other passionate students in a supportive environment.</p></div>
+      <div class="value-card"><div class="vnum">Curiosity</div><h4>Keep asking</h4><p>Never stop learning, asking questions, or exploring new ideas.</p></div>
+      <div class="value-card"><div class="vnum">Leadership</div><h4>Lead by doing</h4><p>Take initiative, inspire others, and lead with confidence.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMUNITY ============ -->
+<section id="community">
+  <div class="wrap">
+    <div class="community-grid">
+      <div class="community-visual reveal">
+        <div class="orbit o1"><div class="orbit-dot"></div></div>
+        <div class="orbit o2"><div class="orbit-dot"></div></div>
+        <div class="orbit o3"><div class="orbit-dot"></div></div>
+        <div class="community-core"><img src="logo.png" alt=""></div>
+      </div>
+      <div class="community-copy reveal">
+        <span class="eyebrow">Community</span>
+        <h2 style="margin-top:16px; font-size:clamp(28px,3.6vw,40px); line-height:1.15;">You're never building this alone.</h2>
+        <p style="color:var(--ink-soft); font-size:17px; margin-top:20px; max-width:480px;">TIP is a network of workshops, mentors, and peers who show up for each other's ideas. Come for a single workshop or stay for the whole track &mdash; the community meets you where you are.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">Peer</div><div class="lbl">Study &amp; build groups</div></div>
+          <div class="stat"><div class="num">1:1</div><div class="lbl">Mentorship pairings</div></div>
+          <div class="stat"><div class="num">Live</div><div class="lbl">Workshops &amp; bootcamps</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GET INVOLVED ============ -->
+<section id="involved" class="section-alt">
+  <div class="wrap">
+    <div class="involved reveal">
+      <div class="involved-top">
+        <div>
+          <span class="eyebrow">Get Involved</span>
+          <h2 style="margin-top:16px;">Come build the future with us.</h2>
+          <p>Whichever way you show up, there's a place for you at TIP.</p>
+        </div>
+        <a href="#" class="btn btn-light">Join the Community</a>
+      </div>
+      <div class="involved-actions">
+        <div class="involved-action">
+          <span class="eyebrow">Students</span>
+          <h4>Join</h4>
+          <p>Pick a program, meet your cohort, start building.</p>
+        </div>
+        <div class="involved-action">
+          <span class="eyebrow">Community</span>
+          <h4>Attend an event</h4>
+          <p>Drop into a workshop or bootcamp &mdash; no experience required.</p>
+        </div>
+        <div class="involved-action">
+          <span class="eyebrow">Professionals</span>
+          <h4>Become a mentor</h4>
+          <p>Share what you know with someone a few steps behind you.</p>
+        </div>
+        <div class="involved-action">
+          <span class="eyebrow">Organizations</span>
+          <h4>Partner with TIP</h4>
+          <p>Support programs, sponsor a challenge, or open doors for students.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><img src="logo.png" alt="The Icaris Project"></a>
+        <p>Empowering the next generation to learn, build, and lead across technology, business, and design.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Site</h5>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#why">Why TIP</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#involved">Get Involved</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col newsletter">
+        <h5>Stay in the loop</h5>
+        <p style="color:var(--ink-soft); font-size:14px;">New programs, events, and stories &mdash; no spam.</p>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed';">
+          <input type="email" placeholder="you@email.com" required>
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> The Icaris Project. Built by students, for students.</p>
+      <div class="social-row">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // mobile menu
+  const menuToggle = document.getElementById('menuToggle');
+  const menuClose = document.getElementById('menuClose');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+  menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // respect reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.flight-mover, .orbit').forEach(el => el.style.animation = 'none');
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
